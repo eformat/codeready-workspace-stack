@@ -29,7 +29,7 @@ components:
     id: redhat/vscode-yaml/latest
   - type: dockerimage
     alias: node-rhel7-ansible
-    image: quay.io/rht-labs/stacks-node-rhel7-ansible:latest
+    image: quay.io/rht-labs/stacks-node-rhel7-ansible:4.3
     memoryLimit: 2Gi
     mountSources: true
     command: ['sleep', 'infinity']

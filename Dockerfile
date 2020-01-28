@@ -9,11 +9,19 @@ USER root
 # Extra repos not part of ubi
 COPY mongodb-org-3.6.repo /etc/yum.repos.d/
 COPY google-chrome.repo /etc/yum.repos.d/
-# rhel7.repo should go away when the base stack image properly supports RHEL repos when built on a subscribed node
-COPY rhel7.repo /etc/yum.repos.d/
 
-# Install
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+# Copy entitlements
+COPY ./etc-pki-entitlement /etc/pki/entitlement
+# Copy subscription manager configurations
+COPY ./rhsm-conf /etc/rhsm
+COPY ./rhsm-ca /etc/rhsm/ca
+# Delete /etc/rhsm-host to use entitlements from the build container
+# Initialize /etc/yum.repos.d/redhat.repo
+# See https://access.redhat.com/solutions/1443553
+RUN rm -f /etc/rhsm-host && \
+    yum repolist --disablerepo=* && \
+    subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-optional-rpms  && \
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum install -y cowsay zsh libXScrnSaver redhat-lsb xdg-utils google-chrome-stable rh-python36.x86_64 libXScrnSaver redhat-lsb xdg-utils google-chrome-stable mongodb-org-server mongodb-org-tools mongodb-org-shell git curl gcc-c++ automake python2 wget psmisc && \
     /opt/rh/rh-python36/root/usr/bin/pip3 install ansible && \
     git clone https://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh && \
@@ -21,7 +29,9 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     mkdir -p /usr/share/maven && \
     curl -fsSL ${MAVEN_URL} | tar -xzC /usr/share/maven --strip-components=1 && \
     ln -s /usr/share/maven/bin/mvn /usr/bin/mvn && \
-    yum clean all
+    rm -rf /var/cache/yum && \
+    rm -rf /etc/pki/entitlement && \
+    rm -rf /etc/rhsm
 
 # Common shell things
 RUN echo "source scl_source enable rh-python36" >> /etc/bashrc
@@ -51,6 +61,10 @@ RUN curl -o /usr/local/bin/jq -L https://github.com/stedolan/jq/releases/downloa
 # Add Let's Encrypt CA to OS trusted store
 RUN curl -o /etc/pki/ca-trust/source/anchors/lets-encrypt-x3-cross-signed.crt https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt && \
     update-ca-trust extract
+
+# Update to latest oc client
+RUN yum -y erase atomic-openshift-clients-3.11.154-1.git.0.7a097ad.el7.x86_64 && \
+    curl -fsSL https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.3/linux/oc.tar.gz | tar -xzC /usr/bin/
 
 # Default User
 USER 1001
