@@ -3,3 +3,6 @@ tests_*
 node_modules
 *.retry
 *~
+etc-pki-entitlement/
+rhsm-conf/
+rhsm-ca/
