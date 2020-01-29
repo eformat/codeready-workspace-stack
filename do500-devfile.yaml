@@ -4,13 +4,12 @@ metadata:
   generateName: do500-
 projects:
   - name: todolist
-    clonePath: /projects/todolist
     source:
       type: git
       location: 'https://github.com/rht-labs/todolist.git'
       branch: develop      
   - name: ci-cd
-    clonePath: /projects/enablement-ci-cd
+    clonePath: enablement-ci-cd
     source:
       type: git
       location: 'https://github.com/rht-labs/enablement-ci-cd.git'
