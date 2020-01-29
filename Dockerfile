@@ -34,6 +34,8 @@ RUN rm -f /etc/rhsm-host && \
     rm -rf /etc/rhsm
 
 # Common shell things
+RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/bashrc
+RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/zshrc
 RUN echo "source scl_source enable rh-python36" >> /etc/bashrc
 RUN echo "git config --global http.sslVerify false" >> /etc/bashrc
 RUN echo "git config --global http.sslVerify false" >> /etc/zshrc
@@ -41,6 +43,10 @@ RUN echo "git config --global user.name 'Derek Dinosaur'" >> /etc/bashrc
 RUN echo "git config --global user.name 'Derek Dinosaur'" >> /etc/zshrc
 RUN echo "git config --global user.email 'derek@dinosaur.com'" >> /etc/bashrc
 RUN echo "git config --global user.email 'derek@dinosaur.com'" >> /etc/zshrc
+RUN echo "git config --global credential.helper 'store --file ~/.my-credentials'" >> /etc/bashrc
+RUN echo "git config --global credential.helper 'store --file ~/.my-credentials'" >> /etc/zshrc
+RUN echo "git config --global push.default matching" >> /etc/bashrc
+RUN echo "git config --global push.default matching" >> /etc/bashrc
 
 # Fixup helpers
 COPY fix-api-url.sh /usr/local/bin
