@@ -4,17 +4,17 @@ metadata:
   generateName: do500-
 projects:
   - name: todolist
+    clonePath: /projects/todolist
     source:
       type: git
       location: 'https://github.com/rht-labs/todolist.git'
-      branch: develop
-      clonePath: /projects/todolist
+      branch: develop      
   - name: ci-cd
+    clonePath: /projects/enablement-ci-cd
     source:
       type: git
       location: 'https://github.com/rht-labs/enablement-ci-cd.git'
-      branch: master
-      clonePath: /projects/enablement-ci-cd
+      branch: master      
 components:
   - type: cheEditor
     alias: theia-editor
