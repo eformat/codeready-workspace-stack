@@ -7,12 +7,14 @@ projects:
     source:
       type: git
       location: 'https://github.com/rht-labs/todolist.git'
-      branch: master
+      branch: develop
+      clonePath: /projects/todolist
   - name: ci-cd
     source:
       type: git
       location: 'https://github.com/rht-labs/enablement-ci-cd.git'
       branch: master
+      clonePath: /projects/enablement-ci-cd
 components:
   - type: cheEditor
     alias: theia-editor
