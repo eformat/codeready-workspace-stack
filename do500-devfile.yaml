@@ -6,13 +6,13 @@ projects:
   - name: todolist
     source:
       type: git
-      location: 'https://github.com/rht-labs/todolist.git'
+      location: 'https://github.com/eformat/todolist.git'
       branch: master
   - name: ci-cd
     clonePath: enablement-ci-cd
     source:
       type: git
-      location: 'https://github.com/rht-labs/enablement-ci-cd.git'
+      location: 'https://github.com/eformat/enablement-ci-cd.git'
       branch: master      
 components:
   - type: cheEditor

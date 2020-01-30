@@ -34,7 +34,8 @@ RUN rm -f /etc/rhsm-host && \
     rm -rf /etc/rhsm
 
 # Common shell things
-RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/profile
+RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/bashrc
+RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/zshrc
 RUN echo "source scl_source enable rh-python36" >> /etc/bashrc
 RUN echo "git config --global http.sslVerify false" >> /etc/bashrc
 RUN echo "git config --global http.sslVerify false" >> /etc/zshrc
