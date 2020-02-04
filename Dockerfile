@@ -37,6 +37,7 @@ RUN rm -f /etc/rhsm-host && \
 RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/bashrc
 RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/zshrc
 RUN echo "source scl_source enable rh-python36" >> /etc/bashrc
+RUN echo 'export PATH=/opt/rh/rh-python36/root/usr/bin:$PATH' >> /etc/zshrc
 RUN echo "git config --global http.sslVerify false" >> /etc/bashrc
 RUN echo "git config --global http.sslVerify false" >> /etc/zshrc
 RUN echo "git config --global user.name 'Derek Dinosaur'" >> /etc/bashrc
