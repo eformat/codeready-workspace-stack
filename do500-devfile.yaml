@@ -31,7 +31,7 @@ components:
   - type: dockerimage
     alias: node-rhel7-ansible
     image: quay.io/rht-labs/stacks-node-rhel7-ansible:4.3
-    memoryLimit: 2Gi
+    memoryLimit: 1Gi
     mountSources: true
     command: ['sleep', 'infinity']
     volumes:
