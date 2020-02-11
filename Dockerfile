@@ -22,7 +22,7 @@ RUN rm -f /etc/rhsm-host && \
     yum repolist --disablerepo=* && \
     subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-optional-rpms  && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum install -y cowsay zsh libXScrnSaver redhat-lsb xdg-utils google-chrome-stable rh-python36.x86_64 libXScrnSaver redhat-lsb xdg-utils google-chrome-stable mongodb-org-server mongodb-org-tools mongodb-org-shell git curl gcc-c++ automake python2 wget psmisc && \
+    yum install -y cowsay zsh libXScrnSaver redhat-lsb xdg-utils google-chrome-stable rh-python36.x86_64 libXScrnSaver redhat-lsb xdg-utils google-chrome-stable mongodb-org-server mongodb-org-tools mongodb-org-shell git curl gcc-c++ automake python2 wget psmisc nss_wrapper && \
     /opt/rh/rh-python36/root/usr/bin/pip3 install ansible && \
     git clone https://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh && \
     cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template $HOME/.zshrc && \    
@@ -34,8 +34,8 @@ RUN rm -f /etc/rhsm-host && \
     rm -rf /etc/rhsm
 
 # Common shell things
-RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/bashrc
-RUN echo "sed -e \"s|jboss:x:1000:1000::/home/jboss:/bin/bash|jboss:x:\$UID:1000::/home/jboss:/bin/bash|g\" /etc/passwd > /tmp/passwd && cp /tmp/passwd /etc/passwd && rm -f /tmp/passwd" >> /etc/zshrc
+RUN echo "source /usr/local/bin/generate_container_user" >> /etc/bashrc
+RUN echo "source /usr/local/bin/generate_container_user" >> /etc/zshrc
 RUN echo "source scl_source enable rh-python36" >> /etc/bashrc
 RUN echo 'export PATH=/opt/rh/rh-python36/root/usr/bin:$PATH' >> /etc/zshrc
 RUN echo "git config --global http.sslVerify false" >> /etc/bashrc
@@ -53,6 +53,9 @@ RUN echo "git config --global push.default matching" >> /etc/bashrc
 COPY fix-api-url.sh /usr/local/bin
 RUN echo "source /usr/local/bin/fix-api-url.sh" >> /etc/bashrc
 RUN echo "source /usr/local/bin/fix-api-url.sh" >> /etc/zshrc
+
+# nss wrapper
+COPY generate_container_user /usr/local/bin
 
 # ENV vars for stuff
 ENV MAVEN_HOME=/projects \
@@ -75,3 +78,6 @@ RUN yum -y erase atomic-openshift-clients-3.11.154-1.git.0.7a097ad.el7.x86_64 &&
 
 # Default User
 USER 1001
+
+# Default to bash
+ENTRYPOINT ["/usr/bin/bash"]
