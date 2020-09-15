@@ -32,7 +32,6 @@ components:
     image: quay.io/rht-labs/stacks-node-rhel7-ansible:latest
     memoryLimit: 2Gi
     mountSources: true
-    command: ['sleep', 'infinity']
     volumes:
       - name: projects
         containerPath: /projects
