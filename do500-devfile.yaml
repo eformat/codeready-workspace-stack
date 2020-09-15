@@ -8,7 +8,7 @@ projects:
       type: git
       location: 'https://github.com/rht-labs/todolist.git'
       branch: master
-  - name: ci-cd
+  - name: enablement-ci-cd
     source:
       type: git
       location: 'https://github.com/rht-labs/enablement-ci-cd.git'
