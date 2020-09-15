@@ -7,7 +7,7 @@ projects:
     source:
       type: git
       location: 'https://github.com/rht-labs/todolist.git'
-      branch: master
+      branch: develop
   - name: ci-cd
     source:
       type: git
@@ -90,4 +90,17 @@ components:
           discoverable: "true"
           public: "false"          
           protocol: http          
+commands:
+  - name: init-todolist
+    actions:
+      - type: exec
+        component: node-rhel7-ansible
+        command: echo "Not required anymore"
+        workdir: '${CHE_PROJECTS_ROOT}/'
+  - name: init-cicd
+    actions:
+      - type: exec
+        component: node-rhel7-ansible
+        command: echo "Not required anymore"
+        workdir: '${CHE_PROJECTS_ROOT}/'
 
