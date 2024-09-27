@@ -8,7 +8,7 @@ projects:
       type: git
       location: 'https://github.com/rht-labs/todolist.git'
       branch: master
-  - name: ci-cd
+  - name: enablement-ci-cd
     source:
       type: git
       location: 'https://github.com/rht-labs/enablement-ci-cd.git'
@@ -32,7 +32,6 @@ components:
     image: quay.io/rht-labs/stacks-node-rhel7-ansible:latest
     memoryLimit: 2Gi
     mountSources: true
-    command: ['sleep', 'infinity']
     volumes:
       - name: projects
         containerPath: /projects
@@ -49,7 +48,7 @@ components:
         port: 9000
         attributes:
           discoverable: "true"
-          public: "false"          
+          public: "true"          
           protocol: http          
       - name: ide-3000
         port: 3000
@@ -91,4 +90,18 @@ components:
           discoverable: "true"
           public: "false"          
           protocol: http          
+commands:
+  - name: init-todolist
+    actions:
+      - type: exec
+        component: node-rhel7-ansible
+        command: cd /projects/todolist && git checkout -b develop
+
+        workdir: '${CHE_PROJECTS_ROOT}/'
+  - name: init-cicd
+    actions:
+      - type: exec
+        component: node-rhel7-ansible
+        command: echo "Not required anymore"
+        workdir: '${CHE_PROJECTS_ROOT}/'
 
